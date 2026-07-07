@@ -11,9 +11,11 @@ import {
   XIcon,
 } from "lucide-react";
 import { useState } from "react";
+import ModalEntrada from "../modalEntrada";
 
 export function MenuResponsive() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [entradaOpen, setEntradaOpen] = useState(false);
 
   return (
     <>
@@ -41,13 +43,13 @@ export function MenuResponsive() {
               <LayoutDashboardIcon className="size-5 text-amber-500" />
               Dash
             </a>
-            <a
-              href=""
-              className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
+            <button
+              className="cursor-pointer flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
+              onClick={() => setEntradaOpen(!entradaOpen)}
             >
               <BanknoteArrowUpIcon className="size-5 text-green-600" />
               Entrada
-            </a>
+            </button>
             <a
               href=""
               className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
@@ -109,13 +111,15 @@ export function MenuResponsive() {
                 <LayoutDashboardIcon className="size-5 text-amber-500" />
                 Dash
               </a>
-              <a
-                href=""
-                className="flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
+              <button
+                className="cursor-pointer flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                onClick={() => {
+                  return (setEntradaOpen(!entradaOpen), setMenuOpen(!menuOpen));
+                }}
               >
                 <BanknoteArrowUpIcon className="size-5 text-green-600" />
                 Entrada
-              </a>
+              </button>
               <a
                 href=""
                 className="flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
@@ -139,6 +143,10 @@ export function MenuResponsive() {
             </ul>
           </nav>
         </div>
+      )}
+
+      {entradaOpen && (
+        <ModalEntrada isOpen={entradaOpen} setIsOpen={setEntradaOpen} />
       )}
     </>
   );
