@@ -1,4 +1,5 @@
 "use client";
+
 import {
   BanknoteArrowDownIcon,
   BanknoteArrowUpIcon,
@@ -11,11 +12,15 @@ import {
   XIcon,
 } from "lucide-react";
 import { useState } from "react";
-import ModalEntrada from "../modalEntrada";
+import { buscarTodasTransacoes } from "@/db/SQL/transactions/selects";
+import ModalEntrada from "@/components/modalEntrada";
+import ModalSaida from "@/components/modalSaida";
+import Link from "next/link";
 
 export function MenuResponsive() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [entradaOpen, setEntradaOpen] = useState(false);
+  const [saidaOpen, setSaidaOpen] = useState(false);
 
   return (
     <>
@@ -36,27 +41,37 @@ export function MenuResponsive() {
           </div>
 
           <nav className="hidden items-center gap-1 md:flex">
-            <a
-              href=""
+            <button className="cursor-pointer" onClick={buscarTodasTransacoes}>
+              Testar conexão
+            </button>
+
+            <Link
+              href="/"
               className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
             >
               <LayoutDashboardIcon className="size-5 text-amber-500" />
               Dash
-            </a>
+            </Link>
             <button
               className="cursor-pointer flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
-              onClick={() => setEntradaOpen(!entradaOpen)}
+              onClick={() => {
+                setEntradaOpen(!entradaOpen);
+                setSaidaOpen(false);
+              }}
             >
               <BanknoteArrowUpIcon className="size-5 text-green-600" />
               Entrada
             </button>
-            <a
-              href=""
-              className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
+            <button
+              className="cursor-pointer flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
+              onClick={() => {
+                setSaidaOpen(!saidaOpen);
+                setEntradaOpen(false);
+              }}
             >
               <BanknoteArrowDownIcon className="size-5 text-red-500" />
               Saída
-            </a>
+            </button>
             <a
               href=""
               className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
@@ -64,14 +79,14 @@ export function MenuResponsive() {
               <ReceiptIcon className="size-5 text-cyan-600" />
               Extrato
             </a>
-            <a
-              href=""
+            <Link
+              href="/settings"
               className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
             >
               <SettingsIcon className="size-6 text-gray-600" />
-            </a>
+            </Link>
             <a
-              href=""
+              href="/profile"
               className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
             >
               <UserRoundIcon className="size-6 text-gray-600" />
@@ -101,32 +116,43 @@ export function MenuResponsive() {
       </header>
 
       {menuOpen && (
-        <div className="absolute z-30 w-full overflow-hidden py-4 transition-all duration-500 mt-15 md:hidden">
+        <div className="absolute z-31 w-full overflow-hidden py-4 transition-all duration-500 mt-15 md:hidden">
           <nav className="mx-3 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
             <ul className="flex flex-col">
-              <a
-                href=""
+              <Link
+                href="/"
                 className="flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                onClick={() => setMenuOpen(false)}
               >
                 <LayoutDashboardIcon className="size-5 text-amber-500" />
                 Dash
-              </a>
+              </Link>
               <button
                 className="cursor-pointer flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
                 onClick={() => {
-                  return (setEntradaOpen(!entradaOpen), setMenuOpen(!menuOpen));
+                  return (
+                    setEntradaOpen(!entradaOpen),
+                    setMenuOpen(!menuOpen),
+                    setSaidaOpen(false)
+                  );
                 }}
               >
                 <BanknoteArrowUpIcon className="size-5 text-green-600" />
                 Entrada
               </button>
-              <a
-                href=""
-                className="flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
+              <button
+                className="cursor-pointer flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                onClick={() => {
+                  return (
+                    setSaidaOpen(!saidaOpen),
+                    setMenuOpen(!menuOpen),
+                    setEntradaOpen(false)
+                  );
+                }}
               >
                 <BanknoteArrowDownIcon className="size-5 text-red-500" />
                 Saída
-              </a>
+              </button>
               <a
                 href=""
                 className="flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
@@ -134,19 +160,27 @@ export function MenuResponsive() {
                 <ReceiptIcon className="size-5 text-cyan-600" />
                 Extrato
               </a>
-              <a
-                href=""
+              <Link
+                href="/settings"
                 className="flex gap-1 rounded-lg px-4 py-3 justify-end text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                onClick={() => setMenuOpen(false)}
               >
                 <SettingsIcon className="size-5 text-gray-600" />
-              </a>
+              </Link>
             </ul>
           </nav>
         </div>
       )}
 
       {entradaOpen && (
-        <ModalEntrada isOpen={entradaOpen} setIsOpen={setEntradaOpen} />
+        <ModalEntrada
+          entradaOpen={entradaOpen}
+          setEntreadaOpen={setEntradaOpen}
+        />
+      )}
+
+      {saidaOpen && (
+        <ModalSaida saidaOpen={saidaOpen} setSaidaOpen={setSaidaOpen} />
       )}
     </>
   );

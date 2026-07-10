@@ -1,9 +1,24 @@
+import { inserirEntrada } from "@/db/SQL/transactions/Inserts";
+import CurrencyInput from "@/utils/InputValor";
+import { useState } from "react";
+
 type ModalEntradaProps = {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  entradaOpen: boolean;
+  setEntreadaOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function ModalEntrada({ isOpen, setIsOpen }: ModalEntradaProps) {
+export default function ModalEntrada({
+  entradaOpen,
+  setEntreadaOpen,
+}: ModalEntradaProps) {
+  const [valor, setValor] = useState(0);
+  const [descricao, setDescricao] = useState("");
+  const [categoria, setCategoria] = useState("");
+
+  async function handleInserirEntrada() {
+    await inserirEntrada({ descricao, valor, categoria });
+  }
+
   return (
     <div className="absolute inset-x-0 top-15 z-30 flex justify-center px-4 py-6">
       <div className="w-full max-w-4xl rounded-2xl border border-green-600 bg-white shadow-2xl">
@@ -21,9 +36,11 @@ export default function ModalEntrada({ isOpen, setIsOpen }: ModalEntradaProps) {
 
                 <input
                   id="descricao"
+                  value={descricao}
+                  onChange={(e) => setDescricao(e.target.value)}
                   type="text"
                   placeholder="Ex.: Salário"
-                  className="rounded-lg border border-gray-300 px-3 py-2 outline-none transition focus:border-amber-500"
+                  className="rounded-lg border border-gray-300 px-3 py-2 outline-none transition focus:border-green-500"
                 />
               </div>
 
@@ -32,11 +49,10 @@ export default function ModalEntrada({ isOpen, setIsOpen }: ModalEntradaProps) {
                   Valor
                 </label>
 
-                <input
-                  id="valor"
-                  type="number"
-                  placeholder="0,00"
-                  className="rounded-lg border border-gray-300 px-3 py-2 outline-none transition focus:border-amber-500"
+                <CurrencyInput
+                  value={valor}
+                  onChange={setValor}
+                  className="rounded-lg border border-gray-300 px-3 py-2 outline-none transition focus:border-green-500"
                 />
               </div>
             </div>
@@ -51,6 +67,8 @@ export default function ModalEntrada({ isOpen, setIsOpen }: ModalEntradaProps) {
                 <select
                   id="categoria"
                   className="rounded-lg border border-gray-300 px-3 py-2"
+                  value={categoria}
+                  onChange={(e) => setCategoria(e.target.value)}
                 >
                   <option>Selecione</option>
                 </select>
@@ -92,7 +110,7 @@ export default function ModalEntrada({ isOpen, setIsOpen }: ModalEntradaProps) {
                 id="obs"
                 rows={4}
                 placeholder="Digite alguma observação..."
-                className="resize-none rounded-lg border border-gray-300 p-3 outline-none transition focus:border-amber-500"
+                className="resize-none rounded-lg border border-gray-300 p-3 outline-none transition focus:border-green-500"
               />
             </div>
 
@@ -102,15 +120,16 @@ export default function ModalEntrada({ isOpen, setIsOpen }: ModalEntradaProps) {
                 type="button"
                 className="cursor-pointer rounded-lg border border-gray-300 px-5 py-2 transition hover:bg-gray-100"
                 onClick={() => {
-                  setIsOpen(!isOpen);
+                  setEntreadaOpen(!entradaOpen);
                 }}
               >
                 Cancelar
               </button>
 
               <button
-                type="submit"
+                type="button"
                 className="rounded-lg bg-green-600 px-5 py-2 font-semibold text-white transition hover:bg-green-900"
+                onClick={handleInserirEntrada}
               >
                 Salvar Entrada
               </button>

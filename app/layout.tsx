@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { MenuResponsive } from "@/components/setMenuResponse";
+import { MenuResponsive } from "@/pages/setMenuResponse";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
