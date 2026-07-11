@@ -94,11 +94,18 @@ export function MenuResponsive() {
           </nav>
 
           <div className="md:hidden flex">
+            <Link
+              href="/settings"
+              className="flex gap-1 rounded-lg py-2 justify-end text-sm font-semibold text-slate-700 hover:bg-slate-100"
+              onClick={() => setMenuOpen(false)}
+            >
+              <SettingsIcon className="size-6 text-gray-600" />
+            </Link>
             <a
               href=""
               className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
             >
-              <UserRoundIcon className="size-5 text-gray-600" />
+              <UserRoundIcon className="size-6 text-gray-600" />
             </a>
             <button
               className="flex size-10 items-center justify-center rounded-lg border border-slate-200 text-slate-700 md:hidden"
@@ -160,13 +167,6 @@ export function MenuResponsive() {
                 <ReceiptIcon className="size-5 text-cyan-600" />
                 Extrato
               </a>
-              <Link
-                href="/settings"
-                className="flex gap-1 rounded-lg px-4 py-3 justify-end text-sm font-semibold text-slate-700 hover:bg-slate-100"
-                onClick={() => setMenuOpen(false)}
-              >
-                <SettingsIcon className="size-5 text-gray-600" />
-              </Link>
             </ul>
           </nav>
         </div>

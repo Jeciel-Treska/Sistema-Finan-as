@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import { MenuResponsive } from "@/pages/setMenuResponse";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,8 +12,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className="min-h-screen flex flex-col">{children}</body>
-    </html>
+    <>
+      <MenuResponsive />
+      {children}
+      <footer className="fixed bottom-0">aaa</footer>
+    </>
   );
 }
