@@ -8,14 +8,13 @@ import {
   MenuIcon,
   ReceiptIcon,
   SettingsIcon,
-  UserRoundIcon,
   XIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { buscarTodasTransacoes } from "@/db/SQL/transactions/selects";
 import ModalEntrada from "@/components/modalEntrada";
 import ModalSaida from "@/components/modalSaida";
 import Link from "next/link";
+import { BotaoLogout } from "@/components/buttonLogout";
 
 export function MenuResponsive() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,7 +31,7 @@ export function MenuResponsive() {
             </div>
             <div>
               <p className="text-base font-bold leading-tight text-slate-950">
-                Finanças
+                FinFlow
               </p>
               <p className="text-xs font-medium text-slate-500">
                 Entradas e saídas
@@ -41,10 +40,6 @@ export function MenuResponsive() {
           </div>
 
           <nav className="hidden items-center gap-1 md:flex">
-            <button className="cursor-pointer" onClick={buscarTodasTransacoes}>
-              Testar conexão
-            </button>
-
             <Link
               href="/"
               className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
@@ -85,15 +80,10 @@ export function MenuResponsive() {
             >
               <SettingsIcon className="size-6 text-gray-600" />
             </Link>
-            <a
-              href="/profile"
-              className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
-            >
-              <UserRoundIcon className="size-6 text-gray-600" />
-            </a>
+            <BotaoLogout />
           </nav>
 
-          <div className="md:hidden flex">
+          <div className="md:hidden flex gap-4">
             <Link
               href="/settings"
               className="flex gap-1 rounded-lg py-2 justify-end text-sm font-semibold text-slate-700 hover:bg-slate-100"
@@ -101,12 +91,9 @@ export function MenuResponsive() {
             >
               <SettingsIcon className="size-6 text-gray-600" />
             </Link>
-            <a
-              href=""
-              className="flex gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition underline hover:bg-slate-100 hover:text-slate-950"
-            >
-              <UserRoundIcon className="size-6 text-gray-600" />
-            </a>
+
+            <BotaoLogout />
+
             <button
               className="flex size-10 items-center justify-center rounded-lg border border-slate-200 text-slate-700 md:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -127,7 +114,7 @@ export function MenuResponsive() {
           <nav className="mx-3 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
             <ul className="flex flex-col">
               <Link
-                href="/"
+                href="/dashboard"
                 className="flex gap-1 rounded-lg px-4 py-3 justify-center text-sm font-semibold text-slate-700 hover:bg-slate-100"
                 onClick={() => setMenuOpen(false)}
               >

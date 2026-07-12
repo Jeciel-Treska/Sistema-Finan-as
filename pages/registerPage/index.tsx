@@ -1,23 +1,9 @@
-"use client";
-
-import { EntraContaLoginPage } from "@/components/entrarContaLogin";
-import { supabase } from "@/lib/supabase/client";
+import { CriarContaPage } from "@/components/criarContaLogin";
+import { SpinLoader } from "@/components/spinLoader";
 import { LandmarkIcon } from "lucide-react";
-import { useEffect } from "react";
+import { Suspense } from "react";
 
-export function LoginPage() {
-  useEffect(() => {
-    async function verificar() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      console.log("Sessão:", session);
-    }
-
-    verificar();
-  }, []);
-
+export function RegisterPage() {
   return (
     <main className="min-h-screen bg-slate-100">
       <div className="grid min-h-screen lg:grid-cols-2">
@@ -67,7 +53,9 @@ export function LoginPage() {
 
         {/* Lado direito */}
         <section className="flex items-center justify-center px-6">
-          <EntraContaLoginPage />
+          <Suspense fallback={<SpinLoader />}>
+            <CriarContaPage />
+          </Suspense>
         </section>
       </div>
     </main>

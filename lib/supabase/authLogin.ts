@@ -12,3 +12,37 @@ export async function LoginGoogle() {
     console.log(error);
   }
 }
+
+export async function loginEmail(email: string, password: string) {
+  return await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+}
+
+export async function signUpEmail(
+  nome: string,
+  email: string,
+  password: string,
+) {
+  return await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        nome: nome,
+      },
+    },
+  });
+}
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  window.location.href = "/login";
+}
