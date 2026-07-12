@@ -2,14 +2,28 @@
 
 import { ButtonDefault } from "@/components/buttonDefault";
 import { inserirCategoria } from "@/db/SQL/category/insert";
+import { buscaUsuario } from "@/db/SQL/user";
 import {
   BookmarkIcon,
   CircleDollarSignIcon,
   CreditCardIcon,
   UserPenIcon,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function TelaConfiguracao() {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    async function carregar() {
+      const usuario = await buscaUsuario();
+      setNome(usuario?.nome ?? "");
+      setEmail(usuario?.email ?? "");
+    }
+    carregar();
+  }, []);
+
   return (
     <>
       <h2 className="text-3xl underline text-center my-4">Configuração</h2>
@@ -27,7 +41,10 @@ export function TelaConfiguracao() {
                 <label>Nome:</label>
                 <input
                   type="text"
-                  className="rounded-lg border border-gray-300  px-3 py-1 outline-none transition focus:border-gray-500"
+                  className="rounded-lg border border-gray-300 bg-gray-300 px-3 py-1 outline-none transition focus:border-gray-500"
+                  readOnly
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
                 />
               </div>
               <div className="flex flex-col justify-center mt-4">
@@ -36,7 +53,7 @@ export function TelaConfiguracao() {
                   type="text"
                   className="rounded-lg border border-gray-300 bg-gray-300 px-3 py-1 outline-none transition focus:border-gray-500"
                   readOnly
-                  value="aaa"
+                  value={email}
                 />
               </div>
 

@@ -14,6 +14,7 @@ export default function ModalEntrada({
   const [valor, setValor] = useState(0);
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("");
+  const [conta, setConta] = useState("");
 
   async function handleInserirEntrada() {
     await inserirEntrada({ descricao, valor, categoria });
@@ -82,6 +83,8 @@ export default function ModalEntrada({
                 <select
                   id="conta"
                   className="rounded-lg border border-gray-300 px-3 py-2"
+                  value={conta}
+                  onChange={(e) => setConta(e.target.value)}
                 >
                   <option>Selecione</option>
                 </select>
