@@ -1,18 +1,21 @@
+import { Category } from "@/db/Interface/category";
 import { supabase } from "@/lib/supabase/client";
 
-export async function buscarTodasCategorias() {
-  try {
-    const { data, error } = await supabase.from("category").select("*");
+export async function buscarTodasCategorias(): Promise<Category[]> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    if (error) {
-      console.error(error);
-      return [];
-    }
+  if (!user) return [];
 
-    return data;
-  } catch (err) {
-    alert(err);
-  }
+  const { data, error } = await supabase
+    .from("category")
+    .select("*")
+    .eq("user_id", user.id);
+
+  if (error) throw error;
+
+  return data ?? [];
 }
 
 export async function buscarCategoria(categoria: string) {

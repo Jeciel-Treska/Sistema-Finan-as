@@ -87,11 +87,11 @@ export function CardFormaPagamento() {
           </button>
         </div>
       </div>
-      <div className="border rounded-md p-3 border-gray-600 flex flex-col gap-4 max-h-40 overflow-scroll">
+      <div className="border rounded-md p-3 border-gray-600 flex flex-col gap-4 max-h-40 overflow-y-scroll overflow-x-hidden">
         {pgtos.map((pgto) => (
           <div
             key={pgto.id}
-            className={`flex justify-between rounded-xl border px-4 py-2 ${
+            className={`flex justify-between rounded-lg border-l border-b border-r px-4 py-2 ${
               editandoId === pgto.id
                 ? "border-blue-500 bg-blue-50"
                 : "border-gray-600"

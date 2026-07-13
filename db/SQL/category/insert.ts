@@ -1,20 +1,24 @@
 import { supabase } from "@/lib/supabase/client";
 
-export async function inserirCategoria() {
-  console.log("Cliquei");
-
+export async function inserirCategoria(nome: string, tipo: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log(user);
+  if (!user) {
+    throw new Error("Usuário não autenticado.");
+  }
 
-  const novaCategoria = {
-    user_id: user!.id,
-    nome: "",
-    tipo: "tipoCategoria",
-  };
+  const { data, error } = await supabase.from("category").insert({
+    nome,
+    tipo,
+    user_id: user.id,
+  });
 
-  // await supabase.from("category").insert(novaCategoria);
-  return alert(JSON.stringify(novaCategoria, null, 2));
+  console.log(data);
+  console.log(error);
+
+  if (error) throw error;
+
+  return data;
 }
