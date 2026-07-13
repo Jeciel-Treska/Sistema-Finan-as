@@ -1,18 +1,21 @@
+import { MeioPagamento } from "@/db/Interface/paymentMethod";
 import { supabase } from "@/lib/supabase/client";
 
-export async function buscarTodosMeiosPagamentos() {
-  try {
-    const { data, error } = await supabase.from("paymentMethod").select("*");
+export async function buscarTodosMeiosPagamentos(): Promise<MeioPagamento[]> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    if (error) {
-      console.error(error);
-      return [];
-    }
+  if (!user) return [];
 
-    return data;
-  } catch (err) {
-    alert(err);
-  }
+  const { data, error } = await supabase
+    .from("paymentMethod")
+    .select("*")
+    .eq("user_id", user.id);
+
+  if (error) throw error;
+
+  return data ?? [];
 }
 
 export async function buscarMeioPagamento(meiopago: string) {
